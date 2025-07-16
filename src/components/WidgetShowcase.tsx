@@ -3,6 +3,7 @@ import { SocialProofWidget } from './SocialProofWidget';
 import { PurchaseNotification } from './PurchaseNotification';
 import { FriendsVouchedWidget } from './FriendsVouchedWidget';
 import { DiscountModal } from './DiscountModal';
+import { CashbackModal } from './CashbackModal';
 
 const sampleUsers = [
   {
@@ -78,6 +79,14 @@ const sampleReview = {
 };
 
 const sampleProductImage = "https://images.pexels.com/photos/267350/pexels-photo-267350.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1";
+
+interface Contact {
+  id: string;
+  name: string;
+  phone: string;
+  selected: boolean;
+}
+
 export const WidgetShowcase: React.FC = () => {
   const [activeWidgets, setActiveWidgets] = useState<{
     socialProof: boolean;
@@ -86,13 +95,15 @@ export const WidgetShowcase: React.FC = () => {
     friendsVouchedEmpty: boolean;
     discountModal: boolean;
     discountModalWithFriends: boolean;
+    cashbackModal: boolean;
   }>({
     socialProof: false,
     purchaseNotification: false,
     friendsVouched: false,
     friendsVouchedEmpty: false,
     discountModal: false,
-    discountModalWithFriends: false
+    discountModalWithFriends: false,
+    cashbackModal: false
   });
 
   const [modalState, setModalState] = useState<{
@@ -145,6 +156,14 @@ export const WidgetShowcase: React.FC = () => {
 
   const handleCouponSuccess = () => {
     console.log('Coupon successfully claimed!');
+  };
+
+  const handleShareContacts = (contacts: Contact[]) => {
+    console.log('Shared contacts:', contacts);
+  };
+
+  const handleSkipCashback = () => {
+    console.log('User skipped cashback offer');
   };
 
   return (
@@ -264,13 +283,33 @@ export const WidgetShowcase: React.FC = () => {
               </button>
             </div>
           </div>
+
+          {/* Flow 4: Cashback Modal */}
+          <div className="bg-white rounded-xl shadow-lg p-6">
+            <h3 className="text-lg font-semibold text-gray-800 mb-3">
+              Flow 4: Post-Purchase Cashback
+            </h3>
+            <p className="text-sm text-gray-600 mb-4">
+              Post-purchase popup offering cashback for sharing contacts
+            </p>
+            <button
+              onClick={() => toggleWidget('cashbackModal')}
+              className={`w-full py-2 px-4 rounded-lg font-medium transition-colors duration-200 ${
+                activeWidgets.cashbackModal
+                  ? 'bg-red-500 hover:bg-red-600 text-white'
+                  : 'bg-green-600 hover:bg-green-700 text-white'
+              }`}
+            >
+              {activeWidgets.cashbackModal ? 'Hide Modal' : 'Show Modal'}
+            </button>
+          </div>
         </div>
 
         {/* Features Overview */}
         <div className="bg-white rounded-xl shadow-lg p-8">
           <h2 className="text-2xl font-semibold text-gray-800 mb-6">Widget Features</h2>
           
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div>
               <h3 className="font-semibold text-gray-800 mb-3">Flow 1 Features</h3>
               <div className="space-y-2">
@@ -333,6 +372,28 @@ export const WidgetShowcase: React.FC = () => {
                 <div className="flex items-center space-x-2">
                   <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
                   <span className="text-sm text-gray-700">Progressive disclosure</span>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h3 className="font-semibold text-gray-800 mb-3">Flow 4 Features</h3>
+              <div className="space-y-2">
+                <div className="flex items-center space-x-2">
+                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                  <span className="text-sm text-gray-700">Post-purchase rating</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                  <span className="text-sm text-gray-700">Contact selection</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                  <span className="text-sm text-gray-700">Cashback rewards</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                  <span className="text-sm text-gray-700">Multi-step flow</span>
                 </div>
               </div>
             </div>
@@ -419,6 +480,19 @@ export const WidgetShowcase: React.FC = () => {
         description="See which of your friends have already shopped at Sleepy Owl and unlock your exclusive 20% discount."
         companyName="Sleepy Owl"
       />
+
+      {/* Flow 4: Cashback Modal */}
+      {activeWidgets.cashbackModal && (
+        <CashbackModal
+          isOpen={activeWidgets.cashbackModal}
+          onClose={() => closeWidget('cashbackModal')}
+          onShareContacts={handleShareContacts}
+          onSkip={handleSkipCashback}
+          productName="Premium Plan"
+          cashbackAmount="₹200"
+          requiredContacts={10}
+        />
+      )}
     </div>
   );
 };
