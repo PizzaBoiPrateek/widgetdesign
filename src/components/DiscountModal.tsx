@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { X, Zap, Users } from 'lucide-react';
+import { CouponSuccessModal } from './CouponSuccessModal';
 
 interface Friend {
   id: string;
@@ -13,6 +14,7 @@ interface DiscountModalProps {
   onClose: () => void;
   onCheckNow: () => void;
   onGetCoupon?: () => void;
+  onCouponSuccess?: () => void;
   title?: string;
   description?: string;
   discount?: string;
@@ -27,6 +29,7 @@ export const DiscountModal: React.FC<DiscountModalProps> = ({
   onClose,
   onCheckNow,
   onGetCoupon,
+  onCouponSuccess,
   title = "Get 20% Off When You Spot a Friend!",
   description = "See which of your friends have already shopped at Sleepy Owl and unlock your exclusive 20% discount.",
   discount = "20%",
@@ -36,6 +39,7 @@ export const DiscountModal: React.FC<DiscountModalProps> = ({
   className = ""
 }) => {
   const [isAnimating, setIsAnimating] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   if (!isOpen) return null;
 
@@ -48,7 +52,14 @@ export const DiscountModal: React.FC<DiscountModalProps> = ({
   };
 
   const handleGetCoupon = () => {
+    setShowSuccessModal(true);
     onGetCoupon?.();
+  };
+
+  const handleSuccessClose = () => {
+    setShowSuccessModal(false);
+    onClose(); // Close the main modal too
+    onCouponSuccess?.();
   };
 
   const handleClose = (e: React.MouseEvent) => {
@@ -170,6 +181,14 @@ export const DiscountModal: React.FC<DiscountModalProps> = ({
           </div>
         </div>
       </div>
+
+      {/* Success Modal */}
+      <CouponSuccessModal
+        isOpen={showSuccessModal}
+        onClose={handleSuccessClose}
+        discount={discount}
+        customerName="favourite customer"
+      />
     </div>
   );
 };

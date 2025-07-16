@@ -139,8 +139,12 @@ export const WidgetShowcase: React.FC = () => {
   };
 
   const handleGetCoupon = () => {
-    console.log('Coupon claimed!');
-    closeDiscountModal();
+    // The success modal will handle closing
+    console.log('Coupon success flow initiated!');
+  };
+
+  const handleCouponSuccess = () => {
+    console.log('Coupon successfully claimed!');
   };
 
   return (
@@ -408,6 +412,7 @@ export const WidgetShowcase: React.FC = () => {
         onClose={closeDiscountModal}
         onCheckNow={handleCheckNow}
         onGetCoupon={handleGetCoupon}
+        onCouponSuccess={handleCouponSuccess}
         friends={sampleModalFriends}
         showFriends={modalState.showFriends}
         title="🎉 Get 20% Off When You Spot a Friend!"

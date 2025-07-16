@@ -45,12 +45,12 @@ export const Flow3Demo: React.FC = () => {
   };
 
   const handleGetCoupon = () => {
-    console.log('Coupon claimed!');
-    setModalState({
-      isOpen: false,
-      showFriends: false
-    });
-    // Here you would typically handle the coupon redemption
+    // The success modal will handle closing the main modal
+    console.log('Coupon success flow initiated!');
+  };
+
+  const handleCouponSuccess = () => {
+    console.log('Coupon successfully claimed and modals closed!');
   };
 
   const closeModal = () => {
@@ -173,6 +173,7 @@ export const Flow3Demo: React.FC = () => {
         onClose={closeModal}
         onCheckNow={handleCheckNow}
         onGetCoupon={handleGetCoupon}
+        onCouponSuccess={handleCouponSuccess}
         friends={sampleFriends}
         showFriends={modalState.showFriends}
         title="🎉 Get 20% Off When You Spot a Friend!"
