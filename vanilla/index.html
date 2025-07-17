@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Proof Widgets - Vanilla JS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes slideIn {
+            from {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-slide-in {
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .widget-container {
+            position: fixed;
+            z-index: 1000;
+        }
+
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+        }
+
+        .modal-content {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2001;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-8">
+    <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-gray-800 mb-4">
+                Social Proof Widgets - Vanilla JS
+            </h1>
+            <p class="text-lg text-gray-600 mb-8">
+                Production-ready social proof widgets in pure JavaScript
+            </p>
+        </div>
+
+        <!-- Widget Controls -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            <!-- Social Proof Widget -->
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-3">
+                    Social Proof Widget
+                </h3>
+                <p class="text-sm text-gray-600 mb-4">
+                    Shows users who vouched for the product with stacked avatars
+                </p>
+                <button
+                    id="toggleSocialProof"
+                    class="w-full bg-teal-600 hover:bg-teal-700 text-white py-2 px-4 rounded-lg font-medium transition-colors duration-200"
+                >
+                    Show Widget
+                </button>
+            </div>
+
+            <!-- Purchase Notification -->
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-3">
+                    Purchase Notification
+                </h3>
+                <p class="text-sm text-gray-600 mb-4">
+                    Purchase notification that expands to show customer review
+                </p>
+                <button
+                    id="togglePurchaseNotification"
+                    class="w-full bg-teal-600 hover:bg-teal-700 text-white py-2 px-4 rounded-lg font-medium transition-colors duration-200"
+                >
+                    Show Widget
+                </button>
+            </div>
+
+            <!-- Friends Vouched -->
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-3">
+                    Friends Vouched
+                </h3>
+                <p class="text-sm text-gray-600 mb-4">
+                    Shows friends who vouched, expands to show friend details
+                </p>
+                <button
+                    id="toggleFriendsVouched"
+                    class="w-full bg-teal-600 hover:bg-teal-700 text-white py-2 px-4 rounded-lg font-medium transition-colors duration-200"
+                >
+                    Show Widget
+                </button>
+            </div>
+
+            <!-- Discount Modal -->
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-3">
+                    Discount Modal
+                </h3>
+                <p class="text-sm text-gray-600 mb-4">
+                    Modal popup with friend discovery and discount offers
+                </p>
+                <button
+                    id="showDiscountModal"
+                    class="w-full bg-orange-600 hover:bg-orange-700 text-white py-2 px-4 rounded-lg font-medium transition-colors duration-200"
+                >
+                    Show Modal
+                </button>
+            </div>
+
+            <!-- Cashback Modal -->
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-3">
+                    Cashback Modal
+                </h3>
+                <p class="text-sm text-gray-600 mb-4">
+                    Post-purchase popup offering cashback for sharing contacts
+                </p>
+                <button
+                    id="showCashbackModal"
+                    class="w-full bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg font-medium transition-colors duration-200"
+                >
+                    Show Modal
+                </button>
+            </div>
+        </div>
+
+        <!-- Features Overview -->
+        <div class="bg-white rounded-xl shadow-lg p-8">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-6">Implementation Guide</h2>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="font-semibold text-gray-800 mb-3">Easy Integration</h3>
+                    <div class="space-y-2">
+                        <div class="flex items-center space-x-2">
+                            <div class="w-2 h-2 bg-teal-500 rounded-full"></div>
+                            <span class="text-sm text-gray-700">No framework dependencies</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <div class="w-2 h-2 bg-teal-500 rounded-full"></div>
+                            <span class="text-sm text-gray-700">Pure JavaScript ES6+</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <div class="w-2 h-2 bg-teal-500 rounded-full"></div>
+                            <span class="text-sm text-gray-700">Tailwind CSS styling</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <div class="w-2 h-2 bg-teal-500 rounded-full"></div>
+                            <span class="text-sm text-gray-700">Modular architecture</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="font-semibold text-gray-800 mb-3">Features</h3>
+                    <div class="space-y-2">
+                        <div class="flex items-center space-x-2">
+                            <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
+                            <span class="text-sm text-gray-700">Smooth animations</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
+                            <span class="text-sm text-gray-700">Event handling</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
+                            <span class="text-sm text-gray-700">Customizable content</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
+                            <span class="text-sm text-gray-700">Mobile responsive</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8 p-4 bg-gray-50 rounded-lg">
+                <h3 class="font-semibold text-gray-800 mb-2">Usage:</h3>
+                <pre class="text-sm text-gray-600"><code>// Include the widget files
+&lt;script src="social-proof-widgets.js"&gt;&lt;/script&gt;
+
+// Initialize widgets
+const socialProof = new SocialProofWidget({
+    users: [...],
+    productName: 'Your Product'
+});
+
+socialProof.show();</code></pre>
+            </div>
+        </div>
+    </div>
+
+    <script src="social-proof-widgets.js"></script>
+    <script src="demo.js"></script>
+</body>
+</html>
